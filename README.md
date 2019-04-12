@@ -1,0 +1,1 @@
+Utility opening a list of URLs in tabs of a selected internet browser.
