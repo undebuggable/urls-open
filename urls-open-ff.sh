@@ -12,14 +12,19 @@ PATH_INPUT=$1
 function get_command_firefox () {
   if [ -x "$(command -v firefox)" ]; then
     # e.g. Linux
+    
+    PROFILE_FIREFOX=$(mktemp -d);
+    echo $PROFILE_FIREFOX;
+    echo '{"created": $(date +%s),"firstUse":null}' > ${PROFILE_FIREFOX}/times.json;
+    
     # is Firefox process already running?
     PID_FIREFOX=$(pidof firefox)
     if [ ! -z "$PID_FIREFOX" ]; then
       # yes
-      CMD_FIREFOX="firefox -private -new-window -url"
+      CMD_FIREFOX="firefox --profile $PROFILE_FIREFOX -private -new-window -new-tab -url"
     else
       # no
-      CMD_FIREFOX="firefox -private -new-window -url"
+      CMD_FIREFOX="firefox --profile $PROFILE_FIREFOX -private -new-window -new-tab -url"
     fi
   elif [ -x "$(command -v open)" ]; then
     # e.g. MacOS
